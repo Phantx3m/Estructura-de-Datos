@@ -18,14 +18,21 @@ namespace Control_Inventario_EnlazadasSimples
         public Producto Buscar(int code)
         {
             aux = inicio;
-            while (aux.codigo != code && aux != fin) 
+            if(aux.codigo == code)
             {
-                aux = aux.siguiente;
-            }
-            if (aux == fin)
-                return null;
-            else
                 return aux;
+            }
+            else
+            {
+                while (aux.siguiente.codigo != code && aux != fin) 
+                {
+                    aux = aux.siguiente;
+                }
+                if (aux == fin)
+                    return null;
+                else
+                    return aux.siguiente;
+            }
         }
 
         public void Agregar(Producto prod)
@@ -60,8 +67,17 @@ namespace Control_Inventario_EnlazadasSimples
 
                     if (aux != fin)
                     {
-                        aux.siguiente = aux.siguiente.siguiente;
-                        cantidad--;
+                        if (aux.siguiente == fin)
+                        {
+                            aux.siguiente = null;
+                            fin = aux;
+                            cantidad--;
+                        }
+                        else
+                        {
+                            aux.siguiente = aux.siguiente.siguiente;
+                            cantidad--;
+                        }
                     }
 
                     else
